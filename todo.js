@@ -9,7 +9,7 @@ const addTodo = (event) => {
   let indexInp = input.value;
   if (indexInp.length >= 3) {
     todoObj.text = indexInp;
-    todos.push({ ...todoObj, id: Date.now() , isCompleted: false });
+    todos.push({ ...todoObj, id: Date.now(), isCompleted: false });
     input.value = "";
     errorMessege.innerText = "";
     localStorage.setItem('todos', JSON.stringify(todos));
@@ -25,18 +25,17 @@ function displayTodoList() {
   let todoContainer = document.querySelector(".todoContainer");
   let inicialHtml = "";
   todos.map((todo) => {
+    console.log(todo);
     inicialHtml += `
     <li class="link-body">
-    <div class="inp_text">
-    <div class="goal" onclick="handleChecked(${todo.id})" data-id="${todo.id}">
-    <img class="img" src="https://w7.pngwing.com/pngs/739/672/png-transparent-check-mark-x-mark-check-marks-green-check-logo-angle-text-triangle-thumbnail.png" alt="">
+    <input type="checkbox" onchange="handleChecked(${todo.id})" ${todo.isCompleted ? 'checked' : ''}>        <div class="inp_text">
    </div>
-        <h1>${todo.text}</h1>
+       
     </div>
+    <h1>${todo.text}</h1>
     <div class="buttons">
         <button onclick="editTodo(${todo.id})"><i class="fa-solid fa-pen"></i></button>
         <button onclick="deleteTodo(${todo.id})"><i class="fa-solid fa-trash"></i></button>
-    </div>
 </li>
     `;
   });
@@ -62,15 +61,7 @@ function editTodo(id) {
 function handleChecked(id) {
   todos.forEach((todo) => {
     if (todo.id == id) {
-   todo.isCompleted = !todo.isCompleted;
-
-     let imgElement = document.querySelector(`[data-id="${id}"] img`);
-
-      if (todo.isCompleted) {
-        imgElement.style.display = "block";
-      } else {
-        imgElement.style.display = "none";
-      }
+      console.log(todo.isCompleted = !todo.isCompleted)
     }
   });
 
@@ -80,8 +71,8 @@ function handleChecked(id) {
 
 
 
-window.onload = function() {
- let savedTodos = localStorage.getItem('todos');
+window.onload = function () {
+  let savedTodos = localStorage.getItem('todos');
   if (savedTodos) {
     todos = JSON.parse(savedTodos);
     displayTodoList();
